@@ -1,0 +1,10 @@
+flask
+werkzeug
+PyPDF2
+sentence-transformers
+pinecone
+openai
+python-dotenv
+requests
+fpdf2
+selenium

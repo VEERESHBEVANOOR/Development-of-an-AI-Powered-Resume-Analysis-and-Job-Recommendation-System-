@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interview Questions</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sens-body upload-body soft-bg with-app-nav">
+{% include "_nav.html" %}
+
+<div class="neo-upload-top">
+    <button class="back-btn" onclick="window.location.href='/workspace'">Back</button>
+</div>
+
+<div class="neo-login-wrap">
+    <div class="neo-login-card neo-upload-card interview-card">
+        <h1>Interview Questions Generator</h1>
+        <p>Upload resume PDF to get role-relevant interview questions with sample answers.</p>
+
+        <form method="post" enctype="multipart/form-data" class="neo-form" id="iq-form">
+            <label for="resume">Resume PDF</label>
+            <input id="resume" type="file" name="resume" accept=".pdf" required>
+
+            <label for="count">Number of Questions</label>
+            <input id="count" type="number" name="count" min="5" max="20" value="{{ requested_count or 8 }}" required>
+
+            <button class="neo-continue-btn" id="iq-btn" type="submit">Generate Questions</button>
+        </form>
+
+        {% if source_file %}
+        <div class="iq-source">Source: {{ source_file }}</div>
+        {% endif %}
+
+        {% if qa_items %}
+        <div class="iq-results">
+            {% for qa in qa_items %}
+            <div class="iq-item">
+                <h3>Q{{ loop.index }}. {{ qa.question }}</h3>
+                <p><strong>Answer:</strong> {{ qa.answer }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="loading-overlay" id="iq-loading">
+    <div class="loading-card">
+        <div class="loader"></div>
+        <h3>Generating Questions</h3>
+        <p class="muted">Analyzing your resume and preparing interview Q&A.</p>
+        <div class="progress"><span></span></div>
+    </div>
+</div>
+
+<script>
+const iqForm = document.getElementById("iq-form");
+const iqLoading = document.getElementById("iq-loading");
+const iqBtn = document.getElementById("iq-btn");
+if (iqForm) {
+    iqForm.addEventListener("submit", () => {
+        iqBtn.disabled = true;
+        iqLoading.classList.add("show");
+    });
+}
+</script>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>

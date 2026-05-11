@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="site-body with-app-nav">
+{% include "_nav.html" %}
+
+<main class="site-main">
+    <section class="hero-panel">
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <h1>AI Resume Studio for Better Job Outcomes</h1>
+            <p>Run end-to-end resume analysis with LLM insights, ATS scoring, and job-role matching aligned to your skills.</p>
+        </div>
+        <div class="hero-visual"></div>
+    </section>
+
+    <section class="feature-section">
+        <h2>Platform Modules</h2>
+        <div class="feature-grid">
+            <article class="feature-card">
+                <h3>Resume Parsing</h3>
+                <p>Extract text from PDF resumes and build structured input for downstream analysis.</p>
+            </article>
+            <article class="feature-card">
+                <h3>LLM Insights</h3>
+                <p>Generate summary, strengths, weaknesses, gaps, and resume improvement suggestions.</p>
+            </article>
+            <article class="feature-card">
+                <h3>Pinecone Embeddings</h3>
+                <p>Store semantic vectors for retrieval and relevance-based recommendation workflows.</p>
+            </article>
+            <article class="feature-card">
+                <h3>Job Recommendations</h3>
+                <p>Rank suitable roles from scraped jobs using profile-skill overlap and role fit.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stat-item"><strong>PDF</strong><span>Resume Input Format</span></div>
+        <div class="stat-item"><strong>LLM</strong><span>Summary + Insight Engine</span></div>
+        <div class="stat-item"><strong>ATS</strong><span>Readiness Score</span></div>
+        <div class="stat-item"><strong>Pinecone</strong><span>Vector Memory Layer</span></div>
+    </section>
+
+    <section class="faq-section">
+        <h2>Quick FAQ</h2>
+        <details>
+            <summary>What powers the analysis?</summary>
+            <p>Resume analysis uses an LLM plus heuristic scoring from extracted resume content.</p>
+        </details>
+        <details>
+            <summary>Where are records stored?</summary>
+            <p>User data and uploads are stored in the local project database, and embeddings are stored in Pinecone.</p>
+        </details>
+        <details>
+            <summary>Can I re-run analysis after editing my resume?</summary>
+            <p>Yes. Upload the updated file and compare reports from Upload History.</p>
+        </details>
+    </section>
+
+    <section class="cta-banner">
+        <h2>Ready to Analyze Your Resume?</h2>
+        <p>Start a fresh upload and get project-grade output for summary, scoring, and recommendations.</p>
+        <a href="/upload" class="btn-dark">Start New Analysis</a>
+    </section>
+</main>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>

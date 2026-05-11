@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sens-body with-app-nav">
+{% include "_nav.html" %}
+<div class="neo-login-wrap">
+    <div class="neo-login-card">
+        <h1>Create your ResumeAI account</h1>
+        <p>Sign up to upload resumes and generate AI analysis reports.</p>
+
+        <form method="post" class="neo-form">
+            <label for="name">Username</label>
+            <input id="name" type="text" name="name" placeholder="Enter your username" required>
+
+            <label for="email">Email address</label>
+            <input id="email" type="email" name="email" placeholder="Enter your email address" required>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" placeholder="Create a password" required>
+
+            <button class="neo-continue-btn" type="submit">Create Account</button>
+        </form>
+
+        <div class="neo-footer-link">
+            Already have an account? <a href="/auth">Log in</a>
+        </div>
+    </div>
+</div>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>

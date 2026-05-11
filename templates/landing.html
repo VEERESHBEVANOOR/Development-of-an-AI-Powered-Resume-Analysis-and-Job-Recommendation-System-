@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ResumeAnalyzer AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sens-body with-app-nav">
+{% include "_nav.html" %}
+
+<main class="sens-main">
+    <section class="sens-hero">
+        <div class="sens-grid"></div>
+        <div class="sens-hero-content">
+            <h1>AI-Powered Resume Analysis and Job Recommendation System</h1>
+            <p>Upload your resume, get AI-Powered analysis, ATS score, and role-matched job recommendations.</p>
+        </div>
+        <div class="sens-banner"></div>
+    </section>
+
+    <section class="sens-feature-wrap">
+        <h2>Core Modules of This Project</h2>
+        <div class="sens-feature-grid">
+            <article class="sens-feature-card">
+                <h3>Resume PDF Parsing</h3>
+                <p>Extracts resume content from uploaded PDF and prepares clean text for analysis.</p>
+            </article>
+            <article class="sens-feature-card">
+                <h3>AI-Powered Analysis</h3>
+                <p>Generates summary, strengths, weaknesses, gaps, and targeted recommendations.</p>
+            </article>
+            <article class="sens-feature-card">
+                <h3>Pinecone Embeddings</h3>
+                <p>Stores semantic vectors for similarity search and recommendation workflows.</p>
+            </article>
+            <article class="sens-feature-card">
+                <h3>Job Recommendation Engine</h3>
+                <p>Matches user skills to relevant roles and provides fit-based job suggestions.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="sens-faq">
+        <details>
+            <summary>How accurate is the resume analysis output?</summary>
+            <p>It is based on extracted resume content, LLM analysis, and scoring rules used in this project.</p>
+        </details>
+        <details>
+            <summary>Where are my resume data and results stored?</summary>
+            <p>User records are stored in the local project database, and embeddings are stored in Pinecone.</p>
+        </details>
+        <details>
+            <summary>How do I compare results after updating my resume?</summary>
+            <p>Upload the new version and use Upload History to view and compare analysis reports.</p>
+        </details>
+        <details>
+            <summary>Can I download the complete analysis report?</summary>
+            <p>Yes. You can download the generated report as PDF from the result and history pages.</p>
+        </details>
+    </section>
+
+    <section class="sens-final-cta">
+        <h2>Ready to Analyze Your Resume?</h2>
+        <p>Sign in to upload your resume and get AI insights, ATS scoring, and job recommendations.</p>
+        <a href="/auth" class="sens-btn sens-btn-dark wide">Start Your Journey Today</a>
+    </section>
+
+    <footer class="sens-footer">
+        <p>Made with care for your Resume Analyzer project</p>
+    </footer>
+</main>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>

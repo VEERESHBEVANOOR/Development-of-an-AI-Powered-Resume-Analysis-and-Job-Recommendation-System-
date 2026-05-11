@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload History</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sens-body with-app-nav">
+{% include "_nav.html" %}
+
+<div class="back-bar">
+    <button class="back-btn" onclick="window.location.href='{{ back_url }}'">Back</button>
+</div>
+
+<div class="neo-login-wrap">
+<div class="neo-login-card neo-history-card">
+    <div class="dash-header">
+        <div>
+            <div class="ai-badge">Upload Archive</div>
+            <h2>Upload History</h2>
+        </div>
+    </div>
+
+    {% if uploads %}
+        <div class="history-list">
+            {% for u in uploads %}
+                <div class="history-item">
+                    <div>
+                        <div class="history-file">{{ u[1] }}</div>
+                        <div class="history-date">{{ u[2] }}</div>
+                    </div>
+                    <div class="history-actions">
+                        <a href="/upload/{{ u[0] }}">
+                            <button>View</button>
+                        </a>
+                        <a href="/download/{{ u[0] }}">
+                            <button class="secondary-btn">Download PDF</button>
+                        </a>
+                        <form method="post" action="/delete/{{ u[0] }}" class="inline-form">
+                            <button class="danger-btn" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="muted">No uploads yet.</p>
+    {% endif %}
+
+    </div>
+</div>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>

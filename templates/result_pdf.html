@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Resume Review PDF</title>
+    <style>
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { margin: 0; background: #091223; color: #e8f0ff; }
+        .page { width: 100%; padding: 16px; }
+        .card {
+            background: linear-gradient(180deg, #0f1c35, #0b162b);
+            border: 1px solid #304a79;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .head h2 { margin: 0; font-size: 24px; color: #f0f6ff; }
+        .muted { color: #b6c8e7; font-size: 12px; }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid #3b5d95;
+            background: #1a2e54;
+            color: #e0ecff;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .score-block {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 14px;
+            border: 1px solid #314b79;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.02);
+        }
+        .ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 10px solid #2f4a77;
+            border-top-color: #76b8ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            margin: 0 auto;
+            color: #eef4ff;
+        }
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #314b79;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #e3edff;
+        }
+        .box {
+            border: 1px solid #314b79;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+            padding: 10px 12px;
+            margin-bottom: 12px;
+        }
+        .section-title { font-weight: 700; margin-bottom: 6px; color: #eaf2ff; }
+        .summary { font-size: 13px; line-height: 1.5; }
+        .summary ul { margin: 4px 0 6px 18px; }
+        .summary li { margin: 2px 0; }
+        .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .insight-card {
+            border: 1px solid #3b5d95;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.04);
+            padding: 8px 10px;
+        }
+        .insight-card h4 { margin: 0 0 6px; font-size: 13px; color: #eff5ff; }
+        .insight-card ul { margin: 0; padding-left: 16px; font-size: 12px; line-height: 1.4; }
+        .strengths { background: rgba(48, 124, 82, 0.22); }
+        .weaknesses { background: rgba(155, 102, 43, 0.22); }
+        .gaps { background: rgba(53, 103, 152, 0.22); }
+        .reco { background: rgba(92, 79, 172, 0.22); }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { border: 1px solid #3b5d95; padding: 7px; text-align: left; vertical-align: top; }
+        th { background: #1f3761; color: #ecf3ff; }
+        td { background: rgba(255,255,255,0.02); }
+        .url { word-break: break-all; color: #8cb8ff; }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="card">
+        <div class="head">
+            <div>
+                <h2>Resume Review</h2>
+                <div class="muted">{{ filename }} | Generated: {{ generated_on }}</div>
+            </div>
+            <div class="badge">AI Report</div>
+        </div>
+
+        <div class="score-block">
+            <div class="ring">{{ resume_score }}</div>
+            <div>
+                <div class="score-row"><span>Tone & Style</span><strong>{{ tone_score }}/100</strong></div>
+                <div class="score-row"><span>Content</span><strong>{{ content_score }}/100</strong></div>
+                <div class="score-row"><span>Structure</span><strong>{{ structure_score }}/100</strong></div>
+                <div class="score-row"><span>Skills</span><strong>{{ skills_score }}/100</strong></div>
+                <div class="score-row"><span>ATS Score</span><strong>{{ ats_score }}/100</strong></div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="section-title">✨ AI Summary</div>
+            <div class="summary">{{ summary_html }}</div>
+        </div>
+
+        <div class="box">
+            <div class="section-title">📌 ATS Checks</div>
+            <ul class="summary">
+                {% for c in ats_checks %}
+                <li>{{ "OK" if c["ok"] else "Needs work" }} - {{ c["label"] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="box">
+            <div class="section-title">🧠 AI Insights</div>
+            <div class="insight-grid">
+                <div class="insight-card strengths">
+                    <h4>✅ Strengths</h4>
+                    <ul>{% for item in insights.get("strengths", []) %}<li>{{ item }}</li>{% endfor %}</ul>
+                </div>
+                <div class="insight-card weaknesses">
+                    <h4>⚠️ Weaknesses</h4>
+                    <ul>{% for item in insights.get("weaknesses", []) %}<li>{{ item }}</li>{% endfor %}</ul>
+                </div>
+                <div class="insight-card gaps">
+                    <h4>🧩 Gaps</h4>
+                    <ul>{% for item in insights.get("gaps", []) %}<li>{{ item }}</li>{% endfor %}</ul>
+                </div>
+                <div class="insight-card reco">
+                    <h4>🚀 Recommendations</h4>
+                    <ul>{% for item in insights.get("recommendations", []) %}<li>{{ item }}</li>{% endfor %}</ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="section-title">🎯 Top Job Recommendations</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th>Match</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for job in jobs %}
+                    <tr>
+                        <td>{{ job.get("title", "-") }}</td>
+                        <td>{{ job.get("company", "-") }}</td>
+                        <td>{{ job.get("location", "-") }}</td>
+                        <td>{{ job.get("match_score", 0) }}%</td>
+                        <td class="url">{{ job.get("apply_url") or job.get("url", "-") }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    <script src="/static/raya.js"></script>
+</body>
+</html>

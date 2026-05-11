@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Resume Review PDF</title>
+    <style>
+        {{ style_css|safe }}
+        html, body {
+            background: #ffffff !important;
+            color: #111827 !important;
+        }
+        .report-shell {
+            padding: 0 !important;
+            min-height: auto !important;
+        }
+        .report-card {
+            width: 100% !important;
+            box-shadow: none !important;
+            border: 1px solid #d6e0ef !important;
+            background: #ffffff !important;
+        }
+        .dark-report-card,
+        .dark-score-block {
+            background: #ffffff !important;
+            color: #111827 !important;
+            border-color: #d6e0ef !important;
+        }
+        .actions, .back-bar { display: none !important; }
+        .jobs-table { page-break-inside: auto; }
+        .jobs-row, .job-meta { page-break-inside: avoid; }
+    </style>
+</head>
+<body>
+<div class="report-shell">
+    <div class="report-card">
+        <div class="report-header">
+            <div>
+                <h2>Resume Review</h2>
+                <p class="muted">{{ filename }} • {{ generated_on }}</p>
+            </div>
+            <div class="ai-badge">AI Report</div>
+        </div>
+
+        <div class="score-block">
+            <div class="score-ring">
+                <div class="score-number">{{ resume_score }}/100</div>
+                <div class="score-label">Your Resume Score</div>
+            </div>
+            <div class="score-details">
+                <div class="score-row"><span>Tone & Style</span><span class="score-val">{{ tone_score }}/100</span></div>
+                <div class="score-row"><span>Content</span><span class="score-val">{{ content_score }}/100</span></div>
+                <div class="score-row"><span>Structure</span><span class="score-val">{{ structure_score }}/100</span></div>
+                <div class="score-row"><span>Skills</span><span class="score-val">{{ skills_score }}/100</span></div>
+            </div>
+        </div>
+
+        <div class="ats-block">
+            <div class="ats-title">ATS Score - {{ ats_score }}/100</div>
+            <ul>
+                {% for c in ats_checks %}
+                <li>{{ "OK" if c["ok"] else "Needs work" }} - {{ c["label"] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <span class="badge">✨ AI Summary</span>
+            <div class="summary report-summary">{{ summary_html }}</div>
+        </div>
+
+        <div class="section">
+            <span class="badge">🧠 AI Insights</span>
+            <div class="insight-grid">
+                <div class="insight-card insight-strengths">
+                    <h4>✅ Strengths</h4>
+                    <ul>{% for item in insights.get("strengths", []) %}<li>{{ item }}</li>{% else %}<li>No data</li>{% endfor %}</ul>
+                </div>
+                <div class="insight-card insight-weaknesses">
+                    <h4>⚠️ Weaknesses</h4>
+                    <ul>{% for item in insights.get("weaknesses", []) %}<li>{{ item }}</li>{% else %}<li>No data</li>{% endfor %}</ul>
+                </div>
+                <div class="insight-card insight-gaps">
+                    <h4>🧩 Gaps</h4>
+                    <ul>{% for item in insights.get("gaps", []) %}<li>{{ item }}</li>{% else %}<li>No data</li>{% endfor %}</ul>
+                </div>
+                <div class="insight-card insight-recommendations">
+                    <h4>🚀 Recommendations</h4>
+                    <ul>{% for item in insights.get("recommendations", []) %}<li>{{ item }}</li>{% else %}<li>No data</li>{% endfor %}</ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="badge">🎯 Job Recommendations</span>
+            {% if jobs %}
+            <div class="jobs-table">
+                <div class="jobs-head">
+                    <span>Role</span><span>Company</span><span>Location</span><span>Match</span>
+                </div>
+                {% for job in jobs %}
+                <div class="jobs-row">
+                    <span>{{ job.get("title", "-") }}</span>
+                    <span>{{ job.get("company", "-") }}</span>
+                    <span>{{ job.get("location", "-") }}</span>
+                    <span>{{ job.get("match_score", 0) }}%</span>
+                </div>
+                <div class="job-meta">
+                    <span>{{ job.get("apply_url") or job.get("url", "-") }}</span>
+                    {% if job.get("source") == "linkedin" and job.get("description") %}
+                    <span>{{ job.get("description", "")[:220] }}{% if job.get("description", "")|length > 220 %}...{% endif %}</span>
+                    {% else %}
+                    <span></span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">No job recommendations available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    <script src="/static/raya.js"></script>
+</body>
+</html>

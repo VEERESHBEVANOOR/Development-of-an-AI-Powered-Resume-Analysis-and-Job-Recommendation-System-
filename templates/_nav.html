@@ -1,0 +1,20 @@
+<header class="app-topbar">
+    <a class="app-brand" href="{{ '/' if not session.get('user') else '/workspace' }}">
+        Resume<span>AI</span>
+    </a>
+
+    <nav class="app-nav-links">
+        {% if session.get("user") %}
+            <a href="/workspace" class="{{ 'is-active' if request.path == '/workspace' else '' }}">Workspace</a>
+            <a href="/resume-builder" class="{{ 'is-active' if request.path == '/resume-builder' else '' }}">Create Resume</a>
+            <a href="/upload" class="{{ 'is-active' if request.path == '/upload' else '' }}">Upload Resume</a>
+            <a href="/interview-questions" class="{{ 'is-active' if request.path == '/interview-questions' else '' }}">Interview Q&A</a>
+            <a href="/history" class="{{ 'is-active' if request.path == '/history' else '' }}">History</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/" class="{{ 'is-active' if request.path == '/' else '' }}">Home</a>
+            <a href="/auth" class="{{ 'is-active' if request.path == '/auth' else '' }}">Login</a>
+            <a href="/register" class="{{ 'is-active' if request.path == '/register' else '' }}">Register</a>
+        {% endif %}
+    </nav>
+</header>

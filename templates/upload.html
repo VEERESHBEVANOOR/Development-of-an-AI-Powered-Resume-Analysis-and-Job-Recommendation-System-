@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Resume</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sens-body upload-body soft-bg with-app-nav">
+{% include "_nav.html" %}
+
+<div class="neo-upload-top">
+    <button class="back-btn" onclick="window.location.href='/workspace'">Back</button>
+</div>
+
+<div class="neo-login-wrap">
+    <div class="neo-login-card neo-upload-card">
+        <h1>Upload Resume for Analysis</h1>
+        <p>PDF only. The system will generate LLM summary, ATS score, and recommendations.</p>
+
+        <form method="post" enctype="multipart/form-data" class="neo-form" id="upload-form">
+            <label for="resume">Resume PDF</label>
+            <input id="resume" type="file" name="resume" accept=".pdf" required>
+
+            <label class="neo-check">
+                <input type="checkbox" name="include_jobs">
+                Include real LinkedIn job recommendations (slower)
+            </label>
+
+            <label for="linkedin_location">Job location (optional)</label>
+            <input id="linkedin_location" type="text" name="linkedin_location" placeholder="e.g., India">
+
+            <button class="neo-continue-btn" id="analyze-btn" type="submit">Analyze Resume</button>
+        </form>
+    </div>
+</div>
+
+<div class="loading-overlay" id="loading">
+    <div class="loading-card">
+        <div class="loader"></div>
+        <h3>Analyzing Resume</h3>
+        <p class="muted">Extracting text, generating AI summary, and scoring your resume.</p>
+        <div class="progress">
+            <span></span>
+        </div>
+    </div>
+</div>
+
+<script>
+const form = document.getElementById("upload-form");
+const loading = document.getElementById("loading");
+const button = document.getElementById("analyze-btn");
+if (form) {
+    form.addEventListener("submit", () => {
+        button.disabled = true;
+        loading.classList.add("show");
+    });
+}
+</script>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>

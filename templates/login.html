@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sens-body soft-bg with-app-nav">
+{% include "_nav.html" %}
+<div class="neo-login-wrap">
+    <div class="neo-login-card">
+        <h1>Sign in to ResumeAI</h1>
+        <p>Welcome back! Please sign in to continue.</p>
+
+        <button class="neo-google-btn" type="button">Continue with Google</button>
+
+        <div class="neo-divider"><span>or</span></div>
+
+        <form action="/login" method="post" class="neo-form">
+            <label for="email">Email address</label>
+            <input id="email" type="email" name="email" placeholder="Enter your email address" required>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" placeholder="Enter your password" required>
+
+            <button class="neo-continue-btn" type="submit">Continue</button>
+        </form>
+
+        <div class="neo-footer-link">
+            Don’t have an account? <a href="/register">Sign up</a>
+        </div>
+    </div>
+</div>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>

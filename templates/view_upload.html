@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Details</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sens-body with-app-nav">
+{% include "_nav.html" %}
+
+<div class="back-bar">
+    <button class="back-btn" onclick="history.back()">Back</button>
+</div>
+
+<div class="report-shell dark-report-shell">
+    <div class="report-card dark-report-card">
+        <div class="report-header">
+            <div>
+                <h2>Upload Details</h2>
+                <p class="muted">{{ filename }} • {{ created_at }}</p>
+            </div>
+            <div class="ai-badge">History</div>
+        </div>
+
+        <div class="score-block dark-score-block">
+            <div class="score-ring">
+                <div class="score-number">{{ resume_score }}/100</div>
+                <div class="score-label">Your Resume Score</div>
+            </div>
+            <div class="score-details">
+                <div class="score-row">
+                    <span>Resume Score</span>
+                    <span class="score-val">{{ resume_score }}/100</span>
+                </div>
+                <div class="score-row">
+                    <span>ATS Score</span>
+                    <span class="score-val">{{ ats_score }}/100</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="graph-block">
+            <h3>Score Graph</h3>
+            <div class="graph-row">
+                <span>Resume</span>
+                <div class="graph-track"><div class="graph-fill graph-resume" style="width: {{ resume_score }}%;"></div></div>
+                <strong>{{ resume_score }}%</strong>
+            </div>
+            <div class="graph-row">
+                <span>ATS</span>
+                <div class="graph-track"><div class="graph-fill graph-ats" style="width: {{ ats_score }}%;"></div></div>
+                <strong>{{ ats_score }}%</strong>
+            </div>
+        </div>
+
+        <div class="ats-block">
+            <div class="ats-title">ATS Score - {{ ats_score }}/100</div>
+            <ul>
+                {% for c in ats_checks %}
+                <li>{{ "OK" if c["ok"] else "Needs work" }} - {{ c["label"] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <span class="badge">✨ AI Summary</span>
+            <div class="summary report-summary">{{ summary_html }}</div>
+        </div>
+
+        <div class="section">
+            <span class="badge">🧠 AI Insights</span>
+            <div class="insight-grid">
+                <div class="insight-card insight-strengths">
+                    <h4>✅ Strengths</h4>
+                    <ul>
+                        {% for item in insights.get("strengths", []) %}
+                        <li>{{ item }}</li>
+                        {% else %}
+                        <li>No data</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="insight-card insight-recommendations">
+                    <h4>🚀 Recommendations</h4>
+                    <ul>
+                        {% for item in insights.get("recommendations", []) %}
+                        <li>{{ item }}</li>
+                        {% else %}
+                        <li>No data</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="badge">🎯 Job Recommendations</span>
+            {% if market_trends %}
+            <p class="muted">Market trend skills: {{ market_trends[:6] | join(", ") }}</p>
+            {% endif %}
+            {% if jobs %}
+            <div class="jobs-table">
+                <div class="jobs-head">
+                    <span>Role</span>
+                    <span>Company</span>
+                    <span>Location</span>
+                    <span>Match</span>
+                    <span>Trend</span>
+                </div>
+                {% for job in jobs %}
+                <div class="jobs-row">
+                    <span>{{ job.get("title", "-") }}</span>
+                    <span>{{ job.get("company", "-") }}</span>
+                    <span>{{ job.get("location", "-") }}</span>
+                    <span>{{ job.get("match_score", 0) }}%</span>
+                    <span>{{ job.get("trend_score", 0) }}%</span>
+                </div>
+                <div class="job-meta">
+                    <a href="/apply/{{ upload_id }}/{{ loop.index0 }}" target="_blank">Apply / View Job</a>
+                    {% if job.get("source") == "linkedin" and job.get("description") %}
+                    <span>{{ job.get("description", "")[:220] }}{% if job.get("description", "")|length > 220 %}...{% endif %}</span>
+                    {% else %}
+                    <span></span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">No job recommendations available.</p>
+            {% endif %}
+        </div>
+
+        <div class="actions">
+            <a href="/download/{{ upload_id }}">
+                <button>Download PDF Summary</button>
+            </a>
+            <a href="/history">
+                <button class="secondary-btn">Back to History</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>

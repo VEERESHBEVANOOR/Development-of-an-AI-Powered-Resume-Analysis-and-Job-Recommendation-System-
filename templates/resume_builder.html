@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Resume</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="sens-body upload-body soft-bg with-app-nav">
+{% include "_nav.html" %}
+
+<div class="neo-upload-top">
+    <button class="back-btn" onclick="window.location.href='/workspace'">Back</button>
+</div>
+
+<div class="builder-wrap">
+    <div class="builder-header">
+        <h1>Resume Builder</h1>
+        <div class="builder-mode-switch">
+            <button type="button" class="builder-mode-btn active" id="mode-form-btn">Form</button>
+            <button type="button" class="builder-mode-btn" id="mode-markdown-btn">Markdown</button>
+        </div>
+    </div>
+
+    <form method="post" class="neo-form resume-builder-form" id="resume-builder-form">
+        <div class="builder-grid">
+            <section class="builder-panel">
+                <h2>Contact Information</h2>
+                <div class="builder-two-col">
+                    <div>
+                        <label>Full Name</label>
+                        <input type="text" name="full_name" required placeholder="Your full name">
+                    </div>
+                    <div>
+                        <label>Role / Title</label>
+                        <input type="text" name="role_title" placeholder="Software Engineer">
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        <input type="email" name="email" required placeholder="you@email.com">
+                    </div>
+                    <div>
+                        <label>Mobile Number</label>
+                        <input type="text" name="phone" placeholder="+91 9876543210">
+                    </div>
+                    <div>
+                        <label>LinkedIn URL</label>
+                        <input type="text" name="linkedin" placeholder="https://linkedin.com/in/your-profile">
+                    </div>
+                    <div>
+                        <label>GitHub URL</label>
+                        <input type="text" name="github" placeholder="https://github.com/your-profile">
+                    </div>
+                    <div>
+                        <label>Date of Birth</label>
+                        <input type="text" name="dob" placeholder="DD/MM/YYYY">
+                    </div>
+                </div>
+            </section>
+
+            <section class="builder-panel">
+                <h2>Professional Summary</h2>
+                <textarea name="bio" rows="4" placeholder="Write a compelling professional summary..."></textarea>
+            </section>
+
+            <section class="builder-panel">
+                <h2>Skills</h2>
+                <textarea name="skills" rows="3" placeholder="HTML, CSS, JavaScript, React, Node, MongoDB"></textarea>
+                <div class="builder-two-col compact">
+                    <div>
+                        <label>Languages</label>
+                        <input type="text" name="skill_languages" placeholder="Python, Java, C++">
+                    </div>
+                    <div>
+                        <label>Frontend/Backend</label>
+                        <input type="text" name="skill_frontend_backend" placeholder="React, Flask, Node.js">
+                    </div>
+                    <div>
+                        <label>Database</label>
+                        <input type="text" name="skill_database" placeholder="MySQL, MongoDB">
+                    </div>
+                    <div>
+                        <label>Others</label>
+                        <input type="text" name="skill_others" placeholder="Git, AWS, Docker">
+                    </div>
+                </div>
+            </section>
+
+            <section class="builder-panel">
+                <div class="builder-title-row">
+                    <h2>Work Experience</h2>
+                    <button type="button" class="builder-add-btn" id="add-exp">+ Add Experience</button>
+                </div>
+                <div id="exp-list" class="dynamic-list"></div>
+            </section>
+
+            <section class="builder-panel">
+                <div class="builder-title-row">
+                    <h2>Education</h2>
+                    <button type="button" class="builder-add-btn" id="add-edu">+ Add Education</button>
+                </div>
+                <div id="edu-list" class="dynamic-list"></div>
+            </section>
+
+            <section class="builder-panel">
+                <div class="builder-title-row">
+                    <h2>Projects</h2>
+                    <button type="button" class="builder-add-btn" id="add-proj">+ Add Project</button>
+                </div>
+                <div id="proj-list" class="dynamic-list"></div>
+            </section>
+
+            <section class="builder-panel">
+                <h2>Certificates & Extras</h2>
+                <textarea name="certificates" rows="3" placeholder="One certificate per line"></textarea>
+                <div class="builder-two-col compact">
+                    <div>
+                        <label>Soft Skills</label>
+                        <input type="text" name="add_soft_skills" placeholder="Communication, Teamwork">
+                    </div>
+                    <div>
+                        <label>Languages Known</label>
+                        <input type="text" name="add_languages" placeholder="English, Hindi, Kannada">
+                    </div>
+                    <div class="full">
+                        <label>Extra Certificates</label>
+                        <textarea name="add_certs" rows="3" placeholder="Extra details (optional)"></textarea>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="builder-panel markdown-panel" id="markdown-panel">
+            <h2>Markdown Editor</h2>
+            <p>Edit any details directly in markdown, then click Download PDF.</p>
+            <textarea id="markdown-editor" rows="22" placeholder="# Your Name&#10;Role Title"></textarea>
+        </section>
+
+        <input type="hidden" name="template" value="structured_pro">
+        <input type="hidden" name="resume_markdown" id="resume-markdown-hidden">
+        <input type="hidden" name="builder_mode" id="builder-mode-hidden" value="form">
+        <input type="hidden" name="experience" id="experience-hidden">
+        <input type="hidden" name="projects" id="projects-hidden">
+        <input type="hidden" name="project_1_title" id="project_1_title">
+        <input type="hidden" name="project_1_desc" id="project_1_desc">
+        <input type="hidden" name="project_2_title" id="project_2_title">
+        <input type="hidden" name="project_2_desc" id="project_2_desc">
+        <input type="hidden" name="project_3_title" id="project_3_title">
+        <input type="hidden" name="project_3_desc" id="project_3_desc">
+        <input type="hidden" name="project_4_title" id="project_4_title">
+        <input type="hidden" name="project_4_desc" id="project_4_desc">
+        <input type="hidden" name="edu_1_date" id="edu_1_date">
+        <input type="hidden" name="edu_1_degree" id="edu_1_degree">
+        <input type="hidden" name="edu_1_college" id="edu_1_college">
+        <input type="hidden" name="edu_1_score" id="edu_1_score">
+        <input type="hidden" name="edu_2_date" id="edu_2_date">
+        <input type="hidden" name="edu_2_degree" id="edu_2_degree">
+        <input type="hidden" name="edu_2_college" id="edu_2_college">
+        <input type="hidden" name="edu_2_score" id="edu_2_score">
+
+        <div class="builder-actions">
+            <button type="button" class="neo-continue-btn ghost-btn" id="save-draft-btn">Save Draft</button>
+            <button class="neo-continue-btn" type="submit">Download PDF</button>
+        </div>
+    </form>
+</div>
+
+<template id="exp-item-template">
+    <div class="dynamic-item">
+        <div class="builder-two-col compact">
+            <input type="text" data-field="title" placeholder="Title / Position">
+            <input type="text" data-field="company" placeholder="Organization / Company">
+            <input type="text" data-field="dates" placeholder="Jan 2025 - Feb 2026">
+            <input type="text" data-field="location" placeholder="Location">
+            <textarea data-field="desc" rows="3" placeholder="Description of your work"></textarea>
+        </div>
+        <button type="button" class="builder-remove-btn">Remove</button>
+    </div>
+</template>
+
+<template id="edu-item-template">
+    <div class="dynamic-item">
+        <div class="builder-two-col compact">
+            <input type="text" data-field="degree" placeholder="Degree / Program">
+            <input type="text" data-field="college" placeholder="College / Institute">
+            <input type="text" data-field="dates" placeholder="2019 - 2023">
+            <input type="text" data-field="score" placeholder="CGPA / Percentage">
+        </div>
+        <button type="button" class="builder-remove-btn">Remove</button>
+    </div>
+</template>
+
+<template id="proj-item-template">
+    <div class="dynamic-item">
+        <div class="builder-two-col compact">
+            <input type="text" data-field="title" placeholder="Project title">
+            <textarea data-field="desc" rows="3" placeholder="Project description"></textarea>
+        </div>
+        <button type="button" class="builder-remove-btn">Remove</button>
+    </div>
+</template>
+
+<script>
+    function addDynamicItem(templateId, listId) {
+        const tpl = document.getElementById(templateId);
+        const list = document.getElementById(listId);
+        const node = tpl.content.cloneNode(true);
+        const item = node.querySelector(".dynamic-item");
+        node.querySelector(".builder-remove-btn").addEventListener("click", () => item.remove());
+        list.appendChild(node);
+    }
+
+    function readField(item, key) {
+        const el = item.querySelector(`[data-field="${key}"]`);
+        return el ? (el.value || "").trim() : "";
+    }
+
+    function serializeBuilderForm() {
+        const expItems = Array.from(document.querySelectorAll("#exp-list .dynamic-item"));
+        const eduItems = Array.from(document.querySelectorAll("#edu-list .dynamic-item"));
+        const projItems = Array.from(document.querySelectorAll("#proj-list .dynamic-item"));
+
+        const expLines = expItems.map((item) => {
+            const title = readField(item, "title");
+            const company = readField(item, "company");
+            const dates = readField(item, "dates");
+            const location = readField(item, "location");
+            const desc = readField(item, "desc");
+            const head = [title, company].filter(Boolean).join(" @ ");
+            const meta = [dates, location].filter(Boolean).join(", ");
+            return [head, meta, desc].filter(Boolean).join(" | ");
+        }).filter(Boolean);
+        document.getElementById("experience-hidden").value = expLines.join("\n");
+
+        const projLines = projItems.map((item) => {
+            const title = readField(item, "title");
+            const desc = readField(item, "desc");
+            return [title, desc].filter(Boolean).join(" - ");
+        }).filter(Boolean);
+        document.getElementById("projects-hidden").value = projLines.join("\n");
+
+        for (let i = 0; i < 4; i++) {
+            const item = projItems[i];
+            document.getElementById(`project_${i + 1}_title`).value = item ? readField(item, "title") : "";
+            document.getElementById(`project_${i + 1}_desc`).value = item ? readField(item, "desc") : "";
+        }
+
+        const edu1 = eduItems[0];
+        const edu2 = eduItems[1];
+        document.getElementById("edu_1_date").value = edu1 ? readField(edu1, "dates") : "";
+        document.getElementById("edu_1_degree").value = edu1 ? readField(edu1, "degree") : "";
+        document.getElementById("edu_1_college").value = edu1 ? readField(edu1, "college") : "";
+        document.getElementById("edu_1_score").value = edu1 ? readField(edu1, "score") : "";
+        document.getElementById("edu_2_date").value = edu2 ? readField(edu2, "dates") : "";
+        document.getElementById("edu_2_degree").value = edu2 ? readField(edu2, "degree") : "";
+        document.getElementById("edu_2_college").value = edu2 ? readField(edu2, "college") : "";
+        document.getElementById("edu_2_score").value = edu2 ? readField(edu2, "score") : "";
+    }
+
+    function value(name) {
+        const el = document.querySelector(`[name="${name}"]`);
+        return el ? (el.value || "").trim() : "";
+    }
+
+    function buildMarkdownFromForm() {
+        serializeBuilderForm();
+        const lines = [];
+        lines.push(`# ${value("full_name") || "Your Name"}`);
+        if (value("role_title")) lines.push(value("role_title"));
+        lines.push("");
+        lines.push("## Contact");
+        if (value("phone")) lines.push(`- Phone: ${value("phone")}`);
+        if (value("email")) lines.push(`- Email: ${value("email")}`);
+        if (value("linkedin")) lines.push(`- LinkedIn: ${value("linkedin")}`);
+        if (value("github")) lines.push(`- GitHub: ${value("github")}`);
+        lines.push("");
+        lines.push("## Summary");
+        lines.push(value("bio") || "Write summary here.");
+        lines.push("");
+        lines.push("## Education");
+        const e1 = [value("edu_1_degree"), value("edu_1_college"), value("edu_1_date"), value("edu_1_score")].filter(Boolean).join(" | ");
+        const e2 = [value("edu_2_degree"), value("edu_2_college"), value("edu_2_date"), value("edu_2_score")].filter(Boolean).join(" | ");
+        if (e1) lines.push(`- ${e1}`);
+        if (e2) lines.push(`- ${e2}`);
+        lines.push("");
+        lines.push("## Technical Skills");
+        value("skills").split("\n").map(x => x.trim()).filter(Boolean).forEach(x => lines.push(`- ${x.replace(/^-+\s*/, "")}`));
+        if (value("skill_languages")) lines.push(`- Languages: ${value("skill_languages")}`);
+        if (value("skill_frontend_backend")) lines.push(`- Frontend & Backend: ${value("skill_frontend_backend")}`);
+        if (value("skill_database")) lines.push(`- Database: ${value("skill_database")}`);
+        if (value("skill_others")) lines.push(`- Others: ${value("skill_others")}`);
+        lines.push("");
+        lines.push("## Projects");
+        Array.from(document.querySelectorAll("#proj-list .dynamic-item")).forEach((item) => {
+            const title = readField(item, "title");
+            const desc = readField(item, "desc");
+            if (title || desc) lines.push(`- ${[title, desc].filter(Boolean).join(" - ")}`);
+        });
+        lines.push("");
+        lines.push("## Certificates");
+        value("certificates").split("\n").map(x => x.trim()).filter(Boolean).forEach(x => lines.push(`- ${x.replace(/^-+\s*/, "")}`));
+        value("add_certs").split("\n").map(x => x.trim()).filter(Boolean).forEach(x => lines.push(`- ${x.replace(/^-+\s*/, "")}`));
+        lines.push("");
+        lines.push("## Additional Information");
+        if (value("add_soft_skills")) lines.push(`- Soft Skills: ${value("add_soft_skills")}`);
+        if (value("add_languages")) lines.push(`- Languages: ${value("add_languages")}`);
+        lines.push("");
+        return lines.join("\n");
+    }
+
+    function switchMode(mode) {
+        const formBtn = document.getElementById("mode-form-btn");
+        const mdBtn = document.getElementById("mode-markdown-btn");
+        const formGrid = document.querySelector(".builder-grid");
+        const mdPanel = document.getElementById("markdown-panel");
+        const modeHidden = document.getElementById("builder-mode-hidden");
+        const mdText = document.getElementById("markdown-editor");
+
+        if (mode === "markdown") {
+            mdText.value = buildMarkdownFromForm();
+            formGrid.style.display = "none";
+            mdPanel.style.display = "block";
+            formBtn.classList.remove("active");
+            mdBtn.classList.add("active");
+            modeHidden.value = "markdown";
+        } else {
+            formGrid.style.display = "";
+            mdPanel.style.display = "none";
+            formBtn.classList.add("active");
+            mdBtn.classList.remove("active");
+            modeHidden.value = "form";
+        }
+    }
+
+    function saveDraft() {
+        serializeBuilderForm();
+        const form = document.getElementById("resume-builder-form");
+        const data = new FormData(form);
+        const snapshot = {};
+        for (const [k, v] of data.entries()) snapshot[k] = v;
+        localStorage.setItem("resume_builder_draft", JSON.stringify(snapshot));
+        alert("Draft saved.");
+    }
+
+    document.getElementById("add-exp").addEventListener("click", () => addDynamicItem("exp-item-template", "exp-list"));
+    document.getElementById("add-edu").addEventListener("click", () => addDynamicItem("edu-item-template", "edu-list"));
+    document.getElementById("add-proj").addEventListener("click", () => addDynamicItem("proj-item-template", "proj-list"));
+    document.getElementById("mode-form-btn").addEventListener("click", () => switchMode("form"));
+    document.getElementById("mode-markdown-btn").addEventListener("click", () => switchMode("markdown"));
+    document.getElementById("save-draft-btn").addEventListener("click", saveDraft);
+    document.getElementById("resume-builder-form").addEventListener("submit", () => {
+        const mode = document.getElementById("builder-mode-hidden").value;
+        if (mode === "markdown") {
+            document.getElementById("resume-markdown-hidden").value = document.getElementById("markdown-editor").value.trim();
+        } else {
+            serializeBuilderForm();
+        }
+    });
+
+    addDynamicItem("exp-item-template", "exp-list");
+    addDynamicItem("edu-item-template", "edu-list");
+    addDynamicItem("proj-item-template", "proj-list");
+    switchMode("form");
+</script>
+
+    <script src="/static/raya.js"></script>
+</body>
+</html>
