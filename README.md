@@ -16,37 +16,6 @@ This project implements the full lifecycle described in the project PDF:
 - DB: SQLite (`database/users.db`)
 - Scraping: Selenium (LinkedIn jobs)
 
-## Week-wise Implementation
-
-### Week 1-2: Registration + Resume Analysis
-- User register/login/logout
-- Resume PDF upload
-- Resume text extraction (`PyPDF2`)
-- LLM summary generation
-- Secure password hashing (`werkzeug.security`)
-- Store embedding vectors in Pinecone
-
-### Week 3-4: AI Insights Module
-- LLM generates:
-  - strengths
-  - weaknesses
-  - gaps
-  - recommendations
-  - target roles
-- Insights are shown in result page and saved in DB
-
-### Week 5-6: LinkedIn + Job Recommendations
-- Selenium-based LinkedIn job scraping (when enabled)
-- Fallback mock job dataset if scraping is disabled/blocked
-- Resume-job semantic matching:
-  - embedding cosine similarity
-  - keyword overlap
-- Ranked job recommendations shown in UI and stored per upload
-
-### Week 7-8: Testing, Review, Documentation
-- Code reviewed and split into reusable utility modules
-- Added unit tests for scoring and recommendation logic
-- Added this implementation guide and architecture notes
 
 ## Project Structure
 
